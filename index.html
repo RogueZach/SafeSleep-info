@@ -3,240 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Website</title>
-    <!-- Tailwind CSS CDN -->
+    <title>SafeSleep - Soft Coral Theme (Animated)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Nunito', sans-serif;
         }
-        /* Simple transition for page content */
         .page-content {
-            display: none; /* Initially hide all page content */
-            animation: fadeIn 0.5s ease-in-out;
+            display: none;
+            animation: fadeInPage 0.5s ease-in-out;
         }
         .page-content.active {
-            display: block; /* Show active page content */
+            display: block;
         }
-        @keyframes fadeIn {
+        @keyframes fadeInPage {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Style for active nav link */
         .nav-link.active {
-            font-weight: 600;
-            color: #3b82f6; /* Tailwind's blue-500 */
+            font-weight: 800;
+            color: #ffffff;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        /* Cascade Animation */
+        .cascade-item {
+            opacity: 0; /* Initial state before animation */
+            transform: translateY(20px); /* Initial state before animation */
+            animation: cascadeUp 0.6s forwards; /* Animation applied by this class */
+        }
+        @keyframes cascadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Typewriter Text Styling */
+        .typewriter-container .typewriter-text-js {
+            opacity: 0; 
+            border-right: .15em solid white; 
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block; 
+            vertical-align: bottom; 
+        }
+         .typewriter-container .typewriter-text-js.typing-done {
+            animation: blink-caret .75s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white; }
+        }
+
+        /* Button Fade-in Animation */
+        .button-fade-in {
+            opacity: 0;
+            animation: fadeInButtons 1s forwards;
+            animation-delay: 3.5s; 
+        }
+        @keyframes fadeInButtons {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-headline-main {
+            font-weight: 800;
+        }
+        .hero-headline-tagline { 
+            font-weight: 500;
+        }
+        .hero-sub-tagline {
+            font-weight: 400;
+            opacity: 0; 
+            animation: fadeInButtons 1s forwards; 
+            animation-delay: 3.0s; 
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fda4af;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fb7185;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f43f5e;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+<body class="bg-rose-400 text-white flex flex-col min-h-screen">
 
-    <!-- Header & Navigation -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-rose-400 sticky top-0 z-50 border-b border-rose-300">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
-                    <a href="#" class="text-2xl font-bold text-blue-600 hover:text-blue-700 transition duration-150 ease-in-out" onclick="showPage('home')">SafeSleep</a>
+                    <a href="#" class="text-2xl font-extrabold text-white hover:text-rose-50 transition duration-150 ease-in-out" onclick="showPage('home')">SafeSleep</a>
                 </div>
                 <div class="hidden sm:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#" id="nav-home" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition duration-150 ease-in-out" onclick="showPage('home')">Home</a>
-                        <a href="#" id="nav-about" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition duration-150 ease-in-out" onclick="showPage('about')">About</a>
-                        <a href="#" id="nav-services" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition duration-150 ease-in-out" onclick="showPage('services')">Services</a>
-                        <a href="#" id="nav-contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition duration-150 ease-in-out" onclick="showPage('contact')">Contact</a>
+                        <a href="#" id="nav-home" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white transition duration-150 ease-in-out" onclick="showPage('home')">Home</a>
+                        <a href="#" id="nav-about" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white transition duration-150 ease-in-out" onclick="showPage('about')">About</a>
+                        <a href="#" id="nav-services" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white transition duration-150 ease-in-out" onclick="showPage('services')">Services</a>
+                        <a href="#" id="nav-contact" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white transition duration-150 ease-in-out" onclick="showPage('contact')">Contact</a>
                     </div>
                 </div>
-                <!-- Mobile menu button -->
                 <div class="sm:hidden">
-                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-rose-100 hover:text-white hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
-                        <!-- Icon when menu is closed. Heroicon name: outline/menu -->
                         <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
-                        <!-- Icon when menu is open. Heroicon name: outline/x -->
                         <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
             </div>
-            <!-- Mobile menu, show/hide based on menu state. -->
-            <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="sm:hidden hidden bg-rose-400 border-t border-rose-300" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="#" id="mobile-nav-home" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900" onclick="showPage('home'); toggleMobileMenu();">Home</a>
-                    <a href="#" id="mobile-nav-about" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900" onclick="showPage('about'); toggleMobileMenu();">About</a>
-                    <a href="#" id="mobile-nav-services" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900" onclick="showPage('services'); toggleMobileMenu();">Services</a>
-                    <a href="#" id="mobile-nav-contact" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900" onclick="showPage('contact'); toggleMobileMenu();">Contact</a>
+                    <a href="#" id="mobile-nav-home" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('home'); toggleMobileMenu();">Home</a>
+                    <a href="#" id="mobile-nav-about" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('about'); toggleMobileMenu();">About</a>
+                    <a href="#" id="mobile-nav-services" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('services'); toggleMobileMenu();">Services</a>
+                    <a href="#" id="mobile-nav-contact" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('contact'); toggleMobileMenu();">Contact</a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Main Content Area -->
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
-        <!-- Home Page Content - UPDATED -->
         <section id="home" class="page-content active">
-            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[70vh] text-center">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-tight">
-                    Transparency. <br> Safety. <br> Trust.<span class="text-blue-600"> <br> <br> Every Time They Sleep</span>
+            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[70vh] text-center">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight">
+                    <span class="hero-headline-main leading-normal">
+                        <span class="cascade-item inline-block mr-3" style="animation-delay: 0s;">Transparency.</span> <br class="hidden sm:inline">
+                        <span class="cascade-item inline-block mr-3" style="animation-delay: 0.6s;">Safety.</span> <br class="hidden sm:inline">
+                        <span class="cascade-item inline-block mr-3" style="animation-delay: 1.2s;">Trust.</span>
+                    </span>
+                    <br> <br>
+                    <span class="text-rose-100 hero-headline-tagline typewriter-container">
+                        <span id="typewriter" class="typewriter-text-js"></span>
+                    </span>
                 </h1>
-                <p class="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-gray-600 max-w-xl sm:max-w-2xl">
+                <p class="hero-sub-tagline mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-rose-100 max-w-xl sm:max-w-2xl">
                     A digital record of care and compliance. <br> Safety standards aren’t just followed, they’re shared.
                 </p>
-                <div class="mt-8 sm:mt-10">
-                    <a href="#" onclick="showPage('services')" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
+                <div class="mt-8 sm:mt-10 button-fade-in">
+                    <a href="#" onclick="showPage('services')" class="inline-block bg-white hover:bg-rose-50 text-rose-500 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
                         Explore Our Services
                     </a>
-                    <a href="#" onclick="showPage('contact')" class="ml-4 inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
+                    <a href="#" onclick="showPage('contact')" class="ml-4 inline-block bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
                         Get In Touch
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- About Page Content -->
         <section id="about" class="page-content">
-            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-gray-900">About Us</h1>
-                <p class="text-lg text-gray-700 mb-4">
+            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-white">About Us</h1>
+                <p class="text-lg text-rose-100 mb-4">
                     This is the about page. Here you can share information about your company, your team, or your mission.
                 </p>
-                <p class="text-gray-600 mb-4">
+                <p class="text-rose-100 mb-4">
                     Our goal is to provide excellent services and create amazing products. We are passionate about what we do and strive for continuous improvement.
                 </p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Our Mission</h3>
-                        <p class="text-gray-600">To deliver high-quality solutions that meet our clients' needs and exceed their expectations.</p>
+                    <div class="bg-rose-400 border border-rose-300 p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-white mb-2">Our Mission</h3>
+                        <p class="text-rose-50">To deliver high-quality solutions that meet our clients' needs and exceed their expectations.</p>
                     </div>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Our Vision</h3>
-                        <p class="text-gray-600">To be a leading innovator in our field, recognized for our creativity and commitment to excellence.</p>
+                    <div class="bg-rose-400 border border-rose-300 p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-white mb-2">Our Vision</h3>
+                        <p class="text-rose-50">To be a leading innovator in our field, recognized for our creativity and commitment to excellence.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Page Content -->
         <section id="services" class="page-content">
-            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-gray-900">Our Services</h1>
-                <p class="text-lg text-gray-700 mb-6">
+            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Our Services</h1>
+                <p class="text-lg text-rose-100 mb-6">
                     Discover the range of services we offer. We are dedicated to providing top-notch solutions tailored to your needs.
                 </p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Service Item 1 -->
-                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600 mb-4">
+                    <div class="border border-rose-300 bg-rose-400 rounded-lg p-6 hover:border-rose-200 transition-all duration-300">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-white text-rose-500 mb-4">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Web Development</h3>
-                        <p class="text-gray-600">Creating responsive and dynamic websites tailored to your business needs.</p>
+                        <h3 class="text-xl font-semibold text-white mb-2">Web Development</h3>
+                        <p class="text-rose-100">Creating responsive and dynamic websites tailored to your business needs.</p>
                     </div>
-                    <!-- Service Item 2 -->
-                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-100 text-green-600 mb-4">
+                    <div class="border border-rose-300 bg-rose-400 rounded-lg p-6 hover:border-rose-200 transition-all duration-300">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-white text-rose-500 mb-4">
                              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Mobile App Development</h3>
-                        <p class="text-gray-600">Building intuitive and high-performance mobile applications for iOS and Android.</p>
+                        <h3 class="text-xl font-semibold text-white mb-2">Mobile App Development</h3>
+                        <p class="text-rose-100">Building intuitive and high-performance mobile applications for iOS and Android.</p>
                     </div>
-                    <!-- Service Item 3 -->
-                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                         <div class="flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 text-purple-600 mb-4">
+                    <div class="border border-rose-300 bg-rose-400 rounded-lg p-6 hover:border-rose-200 transition-all duration-300">
+                         <div class="flex items-center justify-center h-12 w-12 rounded-full bg-white text-rose-500 mb-4">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">UI/UX Design</h3>
-                        <p class="text-gray-600">Designing user-friendly interfaces that provide an optimal user experience.</p>
+                        <h3 class="text-xl font-semibold text-white mb-2">UI/UX Design</h3>
+                        <p class="text-rose-100">Designing user-friendly interfaces that provide an optimal user experience.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Page Content -->
         <section id="contact" class="page-content">
-            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-gray-900">Contact Us</h1>
-                <p class="text-lg text-gray-700 mb-6">
+            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Contact Us</h1>
+                <p class="text-lg text-rose-100 mb-6">
                     Have questions or want to discuss a project? Get in touch with us!
                 </p>
                 <form action="#" method="POST" class="space-y-6">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                        <input type="text" name="name" id="name" autocomplete="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="John Doe">
+                        <label for="name" class="block text-sm font-semibold text-rose-100">Full Name</label>
+                        <input type="text" name="name" id="name" autocomplete="name" class="mt-1 block w-full px-3 py-2 bg-rose-300 border border-rose-200 rounded-md text-white placeholder-rose-100 focus:outline-none focus:ring-white focus:border-white sm:text-sm" placeholder="John Doe">
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                        <input type="email" name="email" id="email" autocomplete="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="you@example.com">
+                        <label for="email" class="block text-sm font-semibold text-rose-100">Email Address</label>
+                        <input type="email" name="email" id="email" autocomplete="email" class="mt-1 block w-full px-3 py-2 bg-rose-300 border border-rose-200 rounded-md text-white placeholder-rose-100 focus:outline-none focus:ring-white focus:border-white sm:text-sm" placeholder="you@example.com">
                     </div>
                     <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Your message..."></textarea>
+                        <label for="message" class="block text-sm font-semibold text-rose-100">Message</label>
+                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full px-3 py-2 bg-rose-300 border border-rose-200 rounded-md text-white placeholder-rose-100 focus:outline-none focus:ring-white focus:border-white sm:text-sm" placeholder="Your message..."></textarea>
                     </div>
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-rose-500 bg-white hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-rose-400 focus:ring-white transition duration-150 ease-in-out">
                             Send Message
                         </button>
                     </div>
                 </form>
                 <div class="mt-8 text-center">
-                    <p class="text-gray-600">You can also reach us at:</p>
-                    <p class="text-blue-600 font-medium">contact@mysite.com</p>
+                    <p class="text-rose-100">You can also reach us at:</p>
+                    <p class="text-white hover:text-rose-50 font-bold">contact@safesleep.com</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-auto">
+    <footer class="bg-rose-400 text-rose-100 mt-auto border-t border-rose-300">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
-            <p class="text-sm">&copy; <span id="currentYear"></span> MySite. All rights reserved.</p>
-            <p class="text-xs mt-1">Designed with <a href="https://tailwindcss.com/" class="hover:text-blue-400" target="_blank" rel="noopener noreferrer">Tailwind CSS</a></p>
+            <p class="text-sm">&copy; <span id="currentYear"></span> SafeSleep. All rights reserved.</p>
+            <p class="text-xs mt-1">Designed with <a href="https://tailwindcss.com/" class="hover:text-white" target="_blank" rel="noopener noreferrer">Tailwind CSS</a></p>
         </div>
     </footer>
 
     <script>
-        // Function to show the selected page and hide others
+        let typewriterTimeoutId = null;
+        let currentTypewriterCharIndex = 0;
+        const typewriterElement = document.getElementById('typewriter'); // Keep this global or pass as arg
+        const textToType = "Every Time They Sleep";
+        const typingSpeed = 100; 
+        const initialTypewriterDelay = 1800; 
+
+        function typeCharacter() {
+            if (typewriterElement && currentTypewriterCharIndex < textToType.length) {
+                typewriterElement.textContent += textToType.charAt(currentTypewriterCharIndex);
+                currentTypewriterCharIndex++;
+                typewriterTimeoutId = setTimeout(typeCharacter, typingSpeed);
+            } else if (typewriterElement) {
+                typewriterElement.classList.add('typing-done');
+                typewriterElement.style.borderRightStyle = 'solid'; 
+            }
+        }
+
+        function resetAndStartTypewriter() {
+            if (typewriterTimeoutId) {
+                clearTimeout(typewriterTimeoutId);
+            }
+            if (typewriterElement) { 
+                typewriterElement.textContent = '';
+                currentTypewriterCharIndex = 0;
+                typewriterElement.classList.remove('typing-done');
+                typewriterElement.style.opacity = '0'; 
+                typewriterElement.style.borderRightStyle = 'solid'; 
+                
+                typewriterTimeoutId = setTimeout(() => {
+                    typewriterElement.style.opacity = '1'; 
+                    typeCharacter();
+                }, initialTypewriterDelay);
+            }
+        }
+
         function showPage(pageId) {
-            // Hide all page content sections
             const pages = document.querySelectorAll('.page-content');
             pages.forEach(page => {
                 page.classList.remove('active');
             });
 
-            // Show the selected page
             const selectedPage = document.getElementById(pageId);
             if (selectedPage) {
                 selectedPage.classList.add('active');
             }
 
-            // Update active state for navigation links
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                // Check both desktop and mobile nav links
                 if (link.id === 'nav-' + pageId || link.id === 'mobile-nav-' + pageId) {
                     link.classList.add('active');
                 }
             });
 
-            // Scroll to top of page for better UX on page change
             window.scrollTo(0, 0);
-
-            // Prevent default link behavior
-            if(event) { // Good practice to check if event exists
+            // Check if event exists and preventDefault is a function before calling
+            if(typeof event !== 'undefined' && event && typeof event.preventDefault === 'function') { 
                  event.preventDefault();
+            }
+
+            if (pageId === 'home') {
+                // Reset Cascade Items by removing and re-adding the class
+                const cascadeItems = document.querySelectorAll('.cascade-item');
+                cascadeItems.forEach(item => {
+                    item.classList.remove('cascade-item');
+                    void item.offsetWidth; // Trigger reflow to apply class removal
+                    item.classList.add('cascade-item'); // Re-add class to restart animation
+                });
+
+                // Reset Typewriter
+                resetAndStartTypewriter();
+
+                // Reset Sub-tagline
+                const subTagline = document.querySelector('.hero-sub-tagline');
+                if (subTagline) {
+                    subTagline.style.animation = 'none';
+                    subTagline.style.opacity = '0'; 
+                    void subTagline.offsetWidth; // Trigger reflow
+                    subTagline.style.animation = ''; // Re-apply animation from class
+                }
+
+                // Reset Buttons Container
+                const buttonsContainer = document.querySelector('.button-fade-in');
+                if (buttonsContainer) {
+                    buttonsContainer.style.animation = 'none';
+                    buttonsContainer.style.opacity = '0'; 
+                    void buttonsContainer.offsetWidth; // Trigger reflow
+                    buttonsContainer.style.animation = ''; // Re-apply animation from class
+                }
             }
         }
 
-        // Mobile menu toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        const openIcon = mobileMenuButton.querySelector('svg:first-of-type'); // Menu icon
-        const closeIcon = mobileMenuButton.querySelector('svg:last-of-type'); // X icon
+        const openIcon = mobileMenuButton.querySelector('svg:first-of-type');
+        const closeIcon = mobileMenuButton.querySelector('svg:last-of-type');
 
         function toggleMobileMenu() {
             const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
@@ -249,13 +369,10 @@
         }
 
         mobileMenuButton.addEventListener('click', toggleMobileMenu);
-
-        // Set current year in footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Initialize the first page (Home) and set its nav link active
         document.addEventListener('DOMContentLoaded', () => {
-            showPage('home');
+            showPage('home'); 
         });
     </script>
 

@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -29,11 +29,10 @@
             border-bottom: 2px solid #ffffff;
         }
 
-        /* Cascade Animation */
         .cascade-item {
-            opacity: 0; /* Initial state before animation */
-            transform: translateY(20px); /* Initial state before animation */
-            animation: cascadeUp 0.6s forwards; /* Animation applied by this class */
+            opacity: 0; 
+            transform: translateY(20px); 
+            animation: cascadeUp 0.6s forwards; 
         }
         @keyframes cascadeUp {
             to {
@@ -42,8 +41,9 @@
             }
         }
         
-        /* Typewriter Text Styling */
         .typewriter-container .typewriter-text-js {
+            font-family: 'Source Code Pro', monospace; 
+            font-weight: 500; 
             opacity: 0; 
             border-right: .15em solid white; 
             white-space: nowrap;
@@ -59,30 +59,83 @@
             50% { border-color: white; }
         }
 
-        /* Button Fade-in Animation */
-        .button-fade-in {
-            opacity: 0;
-            animation: fadeInButtons 1s forwards;
-            animation-delay: 3.5s; 
+        .button-fade-in { /* For initial buttons - will remain hidden */
+            opacity: 0; 
         }
-        @keyframes fadeInButtons {
-            to {
-                opacity: 1;
+        .hero-sub-tagline { /* For initial sub-tagline - will remain hidden */
+            font-family: 'Nunito', sans-serif; 
+            font-weight: 400;
+            opacity: 0; 
+        }
+        /* Removed fadeInElements keyframes as it's no longer used for initial items */
+
+
+        #underline-wrapper {
+            position: absolute;
+            left: 0;
+            bottom: -4px; 
+            height: 2px; 
+            width: 0; 
+            overflow: hidden; 
+        }
+        #animated-underline {
+            display: block;
+            height: 100%;
+            background-color: white;
+            width: 0%; 
+            opacity: 0; 
+        }
+        @keyframes drawUnderlineAnimation {
+            0% { width: 0%; opacity: 1;}
+            100% { width: 100%; opacity: 1;}
+        }
+
+        /* Final SafeSleep Title Animations */
+        #hero-initial-animations-wrapper.fade-out {
+            animation: fadeOutInitialHeroContent 0.5s forwards;
+        }
+        @keyframes fadeOutInitialHeroContent {
+            to { 
+                opacity: 0; 
+                transform: scale(0.95); 
             }
         }
 
+        #hero-final-title-wrapper { 
+            opacity: 0;
+            pointer-events: none; 
+            transform: scale(0.9); 
+        }
+
+        #hero-final-title-wrapper.fade-in-final-content {
+            opacity: 1;
+            pointer-events: auto; 
+            transform: scale(1);
+            animation: fadeInFinalWrapper 1s forwards;
+        }
+         @keyframes fadeInFinalWrapper { 
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .final-element-fade-in {
+            opacity: 0;
+            animation: fadeInFinalElements 0.8s forwards;
+        }
+        @keyframes fadeInFinalElements {
+            to { opacity: 1; }
+        }
+
+
         .hero-headline-main {
+            font-family: 'Nunito', sans-serif; 
             font-weight: 800;
         }
         .hero-headline-tagline { 
-            font-weight: 500;
+            font-weight: 500; 
         }
-        .hero-sub-tagline {
-            font-weight: 400;
-            opacity: 0; 
-            animation: fadeInButtons 1s forwards; 
-            animation-delay: 3.0s; 
-        }
+      
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -139,28 +192,47 @@
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
         <section id="home" class="page-content active">
-            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[70vh] text-center">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight">
-                    <span class="hero-headline-main leading-normal">
-                        <span class="cascade-item inline-block mr-3" style="animation-delay: 0s;">Transparency.</span> <br class="hidden sm:inline">
-                        <span class="cascade-item inline-block mr-3" style="animation-delay: 0.6s;">Safety.</span> <br class="hidden sm:inline">
-                        <span class="cascade-item inline-block mr-3" style="animation-delay: 1.2s;">Trust.</span>
-                    </span>
-                    <br> <br>
-                    <span class="text-rose-100 hero-headline-tagline typewriter-container">
-                        <span id="typewriter" class="typewriter-text-js"></span>
-                    </span>
-                </h1>
-                <p class="hero-sub-tagline mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-rose-100 max-w-xl sm:max-w-2xl">
-                    A digital record of care and compliance. <br> Safety standards aren’t just followed, they’re shared.
-                </p>
-                <div class="mt-8 sm:mt-10 button-fade-in">
-                    <a href="#" onclick="showPage('services')" class="inline-block bg-white hover:bg-rose-50 text-rose-500 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
-                        Explore Our Services
-                    </a>
-                    <a href="#" onclick="showPage('contact')" class="ml-4 inline-block bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
-                        Get In Touch
-                    </a>
+            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[70vh] text-center relative">
+                <div id="hero-initial-animations-wrapper">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight">
+                        <span class="hero-headline-main leading-normal">
+                            <span class="cascade-item inline-block mr-3" style="animation-delay: 0s;">Transparency.</span> <br class="hidden sm:inline">
+                            <span class="cascade-item inline-block mr-3" style="animation-delay: 0.6s;">Safety.</span> <br class="hidden sm:inline">
+                            <span class="cascade-item inline-block mr-3" style="animation-delay: 1.2s;">Trust.</span>
+                        </span>
+                        <br> <br>
+                        <span class="text-rose-100 hero-headline-tagline typewriter-container relative">
+                            <span id="typewriter" class="typewriter-text-js"></span>
+                            <span id="underline-wrapper">
+                                <span id="animated-underline"></span>
+                            </span>
+                        </span>
+                    </h1>
+                    <p class="hero-sub-tagline mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-rose-100 max-w-xl sm:max-w-2xl">
+                        A digital record of care and compliance. <br> Safety standards aren’t just followed, they’re shared.
+                    </p>
+                    <div class="mt-8 sm:mt-10 button-fade-in">
+                        <a href="#" onclick="showPage('services')" class="inline-block bg-white hover:bg-rose-50 text-rose-500 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
+                            Explore Our Services
+                        </a>
+                        <a href="#" onclick="showPage('contact')" class="ml-4 inline-block bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
+                            Get In Touch
+                        </a>
+                    </div>
+                </div>
+                <div id="hero-final-title-wrapper" class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                    <span id="final-safesleep-title" class="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white">SafeSleep</span>
+                    <p id="final-tagline" class="mt-6 text-base md:text-lg text-rose-50 max-w-lg final-element-fade-in" style="animation-delay: 0.5s;">
+                        A digital record of care and compliance. <br> Safety standards aren’t just followed, they’re shared.
+                    </p>
+                    <div id="final-buttons-container" class="mt-8 final-element-fade-in" style="animation-delay: 0.8s;">
+                        <a href="#" onclick="showPage('services')" class="inline-block bg-white hover:bg-rose-50 text-rose-500 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
+                            Explore Our Services
+                        </a>
+                        <a href="#" onclick="showPage('contact')" class="ml-4 inline-block bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
+                            Get In Touch
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -262,10 +334,35 @@
     <script>
         let typewriterTimeoutId = null;
         let currentTypewriterCharIndex = 0;
-        const typewriterElement = document.getElementById('typewriter'); // Keep this global or pass as arg
+        const typewriterElement = document.getElementById('typewriter'); 
         const textToType = "Every Time They Sleep";
         const typingSpeed = 100; 
         const initialTypewriterDelay = 1800; 
+        let underlineAnimationTimeoutId = null;
+        let finalSequenceTimeoutId = null; 
+        let finalElementsTimeoutId = null;
+
+        function startFinalSafeSleepSequence() {
+            const initialWrapper = document.getElementById('hero-initial-animations-wrapper');
+            const finalWrapper = document.getElementById('hero-final-title-wrapper');
+            const finalTagline = document.getElementById('final-tagline');
+            const finalButtons = document.getElementById('final-buttons-container');
+
+            if (initialWrapper && finalWrapper) {
+                initialWrapper.classList.add('fade-out');
+                
+                finalSequenceTimeoutId = setTimeout(() => {
+                    finalWrapper.classList.add('fade-in-final-content'); 
+
+                    if(finalElementsTimeoutId) clearTimeout(finalElementsTimeoutId);
+                    finalElementsTimeoutId = setTimeout(() => {
+                        if(finalTagline) finalTagline.classList.add('final-element-fade-in');
+                        if(finalButtons) finalButtons.classList.add('final-element-fade-in');
+                    }, 500); 
+
+                }, 500); 
+            }
+        }
 
         function typeCharacter() {
             if (typewriterElement && currentTypewriterCharIndex < textToType.length) {
@@ -275,19 +372,68 @@
             } else if (typewriterElement) {
                 typewriterElement.classList.add('typing-done');
                 typewriterElement.style.borderRightStyle = 'solid'; 
+                
+                const underlineWrapper = document.getElementById('underline-wrapper');
+                const animatedUnderline = document.getElementById('animated-underline');
+
+                if (underlineWrapper && animatedUnderline) {
+                    const targetPhrase = "Every Time";
+                    const tempSpan = document.createElement('span');
+                    tempSpan.style.fontFamily = getComputedStyle(typewriterElement).fontFamily;
+                    tempSpan.style.fontSize = getComputedStyle(typewriterElement).fontSize;
+                    tempSpan.style.fontWeight = getComputedStyle(typewriterElement).fontWeight;
+                    tempSpan.style.letterSpacing = getComputedStyle(typewriterElement).letterSpacing;
+                    tempSpan.style.visibility = 'hidden';
+                    tempSpan.style.position = 'absolute';
+                    tempSpan.textContent = targetPhrase;
+                    document.body.appendChild(tempSpan);
+                    const targetWidth = tempSpan.offsetWidth;
+                    document.body.removeChild(tempSpan);
+
+                    underlineWrapper.style.width = targetWidth + 'px';
+                    
+                    // Buttons are now hidden in initial sequence, so underline can start sooner.
+                    // Let's make it start shortly after typewriter finishes.
+                    const underlineDrawDelay = 100; // Small delay after typing
+                    
+                    if (underlineAnimationTimeoutId) clearTimeout(underlineAnimationTimeoutId);
+                    underlineAnimationTimeoutId = setTimeout(() => {
+                        animatedUnderline.style.opacity = '1';
+                        animatedUnderline.style.animation = 'none'; 
+                        void animatedUnderline.offsetWidth; 
+                        animatedUnderline.style.animation = 'drawUnderlineAnimation 0.8s forwards';
+
+                        if(finalSequenceTimeoutId) clearTimeout(finalSequenceTimeoutId);
+                        // Start final sequence after underline draws (0.8s) + a small buffer
+                        finalSequenceTimeoutId = setTimeout(startFinalSafeSleepSequence, 800 + 200); 
+
+                    }, underlineDrawDelay); 
+                }
             }
         }
 
         function resetAndStartTypewriter() {
-            if (typewriterTimeoutId) {
-                clearTimeout(typewriterTimeoutId);
-            }
+            if (typewriterTimeoutId) clearTimeout(typewriterTimeoutId);
+            if (underlineAnimationTimeoutId) clearTimeout(underlineAnimationTimeoutId);
+            if (finalSequenceTimeoutId) clearTimeout(finalSequenceTimeoutId);
+            if (finalElementsTimeoutId) clearTimeout(finalElementsTimeoutId);
+
+
             if (typewriterElement) { 
                 typewriterElement.textContent = '';
                 currentTypewriterCharIndex = 0;
                 typewriterElement.classList.remove('typing-done');
                 typewriterElement.style.opacity = '0'; 
                 typewriterElement.style.borderRightStyle = 'solid'; 
+                
+                const underlineWrapper = document.getElementById('underline-wrapper');
+                const animatedUnderline = document.getElementById('animated-underline');
+                if(underlineWrapper) underlineWrapper.style.width = '0px';
+                if(animatedUnderline) {
+                    animatedUnderline.style.animation = 'none';
+                    animatedUnderline.style.width = '0%';
+                    animatedUnderline.style.opacity = '0';
+                }
                 
                 typewriterTimeoutId = setTimeout(() => {
                     typewriterElement.style.opacity = '1'; 
@@ -316,39 +462,53 @@
             });
 
             window.scrollTo(0, 0);
-            // Check if event exists and preventDefault is a function before calling
             if(typeof event !== 'undefined' && event && typeof event.preventDefault === 'function') { 
                  event.preventDefault();
             }
 
             if (pageId === 'home') {
-                // Reset Cascade Items by removing and re-adding the class
                 const cascadeItems = document.querySelectorAll('.cascade-item');
                 cascadeItems.forEach(item => {
                     item.classList.remove('cascade-item');
-                    void item.offsetWidth; // Trigger reflow to apply class removal
-                    item.classList.add('cascade-item'); // Re-add class to restart animation
+                    void item.offsetWidth; 
+                    item.classList.add('cascade-item'); 
                 });
 
-                // Reset Typewriter
-                resetAndStartTypewriter();
+                resetAndStartTypewriter(); 
 
-                // Reset Sub-tagline
                 const subTagline = document.querySelector('.hero-sub-tagline');
                 if (subTagline) {
-                    subTagline.style.animation = 'none';
-                    subTagline.style.opacity = '0'; 
-                    void subTagline.offsetWidth; // Trigger reflow
-                    subTagline.style.animation = ''; // Re-apply animation from class
+                    subTagline.style.opacity = '0'; // Keep it hidden
                 }
 
-                // Reset Buttons Container
                 const buttonsContainer = document.querySelector('.button-fade-in');
                 if (buttonsContainer) {
-                    buttonsContainer.style.animation = 'none';
-                    buttonsContainer.style.opacity = '0'; 
-                    void buttonsContainer.offsetWidth; // Trigger reflow
-                    buttonsContainer.style.animation = ''; // Re-apply animation from class
+                    buttonsContainer.style.opacity = '0'; // Keep it hidden
+                }
+
+                const initialWrapper = document.getElementById('hero-initial-animations-wrapper');
+                const finalWrapper = document.getElementById('hero-final-title-wrapper');
+                const finalTagline = document.getElementById('final-tagline');
+                const finalButtons = document.getElementById('final-buttons-container');
+
+                if(initialWrapper) {
+                    initialWrapper.classList.remove('fade-out');
+                    initialWrapper.style.opacity = '1';
+                    initialWrapper.style.transform = 'scale(1)';
+                }
+                if(finalWrapper) {
+                    finalWrapper.classList.remove('fade-in-final-content');
+                    finalWrapper.style.opacity = '0';
+                    finalWrapper.style.pointerEvents = 'none';
+                    finalWrapper.style.transform = 'scale(0.9)';
+                }
+                if(finalTagline) {
+                    finalTagline.classList.remove('final-element-fade-in');
+                    finalTagline.style.opacity = '0';
+                }
+                if(finalButtons) {
+                    finalButtons.classList.remove('final-element-fade-in');
+                    finalButtons.style.opacity = '0';
                 }
             }
         }

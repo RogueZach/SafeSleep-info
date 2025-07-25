@@ -3,354 +3,1183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSleep</title>
+    <title>SafeSleep - Automated Sleep Monitoring for Daycare Centers</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --dark-gradient: linear-gradient(135deg, #2d1b69 0%, #11998e 100%);
+            --surface-gradient: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+            --glow-shadow: 0 0 50px rgba(102, 126, 234, 0.3);
+        }
+        
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #fafbff 0%, #f0f4ff 100%);
         }
-        .page-content {
-            display: none;
-            animation: fadeInPage 0.5s ease-in-out;
+        
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
         }
-        .page-content.active {
-            display: block;
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes fadeInPage {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
         }
-        .nav-link {
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4); 
-            transition: transform 0.2s ease-in-out;
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-        .nav-link:hover {
-            transform: translateY(-1px); 
+        
+        .premium-card {
+            background: var(--surface-gradient);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .nav-link.active {
-            font-weight: 800;
-            color: #ffffff;
-            border-bottom: 2px solid #ffffff;
+        
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(102, 126, 234, 0.25);
+            border-color: rgba(102, 126, 234, 0.3);
         }
-
-        /* Final SafeSleep Title Animations */
-        #hero-initial-animations-wrapper.fade-out {
-            /* This class will now just make the empty container disappear quickly */
-            animation: fadeOutInitialHeroContent 0.1s forwards;
+        
+        .floating-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
         }
-        @keyframes fadeOutInitialHeroContent {
-            to { 
-                opacity: 0; 
+        
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .accent-gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .problem-carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 126, 234, 0.15);
+            box-shadow: 0 25px 80px rgba(102, 126, 234, 0.15);
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+        
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            padding: 40px 60px;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 100%;
+            gap: 40px;
+        }
+        
+        .problem-card {
+            flex: 0 0 calc(100% - 40px);
+            background: linear-gradient(145deg, #ffffff 0%, #fef7f7 100%);
+            border: 1px solid rgba(239, 68, 68, 0.1);
+            border-radius: 24px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            box-shadow: 0 15px 40px rgba(239, 68, 68, 0.1);
+        }
+        
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.08), transparent);
+            transition: left 0.8s ease;
+        }
+        
+        .problem-card.active {
+            transform: scale(1.02);
+            box-shadow: 0 25px 60px rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+        
+        .problem-card.active::before {
+            left: 100%;
+        }
+        
+        .problem-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 4px 12px rgba(239, 68, 68, 0.3));
+            transition: all 0.3s ease;
+        }
+        
+        .problem-card.active .problem-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 6px 20px rgba(239, 68, 68, 0.4));
+        }
+        
+        .problem-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+            line-height: 1.3;
+        }
+        
+        .problem-description {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: #6b7280;
+            max-width: 400px;
+        }
+        
+        .problem-card.clone {
+            pointer-events: none; /* Prevent interaction with clone cards */
+        }
+        
+        @media (min-width: 768px) {
+            .carousel-container {
+                padding: 50px 80px;
+                height: 480px;
+            }
+            
+            .carousel-track {
+                gap: 50px;
+            }
+            
+            .problem-card {
+                flex: 0 0 calc(50% - 25px);
+                padding: 3.5rem 2rem;
+            }
+            
+            .problem-icon {
+                font-size: 4.5rem;
+            }
+            
+            .problem-title {
+                font-size: 2rem;
             }
         }
-
-        #hero-final-title-wrapper { 
-            opacity: 0;
-            pointer-events: none; 
-            transform: scale(0.9); 
+        
+        @media (min-width: 1024px) {
+            .carousel-container {
+                padding: 60px 100px;
+                height: 460px;
+            }
+            
+            .carousel-track {
+                gap: 60px;
+            }
+            
+            .problem-card {
+                flex: 0 0 calc(33.333% - 40px);
+                padding: 3rem 1.5rem;
+            }
+            
+            .problem-icon {
+                font-size: 5rem;
+            }
+            
+            .problem-title {
+                font-size: 1.875rem;
+            }
         }
-
-        #hero-final-title-wrapper.fade-in-final-content {
+        
+        .feature-icon-wrapper {
+            background: var(--primary-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: rotate 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .premium-card:hover .feature-icon-wrapper::before {
             opacity: 1;
-            pointer-events: auto; 
-            transform: scale(1);
-            animation: fadeInFinalWrapper 1s forwards;
         }
-         @keyframes fadeInFinalWrapper { 
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        .final-element-fade-in {
-            opacity: 0;
-            animation: fadeInFinalElements 0.8s forwards;
+        
+        .roi-section {
+            background: var(--dark-gradient);
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes fadeInFinalElements {
-            to { opacity: 1; }
+        
+        .roi-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z'/%3E%3C/g%3E%3C/svg%3E") repeat;
         }
-
-        ::-webkit-scrollbar {
-            width: 8px;
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
         }
-        ::-webkit-scrollbar-track {
-            background: #fda4af;
+        
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-gradient);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #fb7185;
-            border-radius: 4px;
+        
+        .pricing-popular {
+            background: var(--primary-gradient);
+            position: relative;
+            overflow: hidden;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #f43f5e;
+        
+        .pricing-popular::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%);
+            background-size: 20px 20px;
+            animation: slide 2s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+            margin: 0 auto;
+            width: 80%;
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-circle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-circle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .floating-circle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 40%;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .custom-shadow {
+            filter: drop-shadow(0 20px 40px rgba(102, 126, 234, 0.15));
+        }
+        
+        .text-shadow {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-item {
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-left-color: #667eea;
+            background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+            transform: translateX(5px);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .blob {
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            position: absolute;
+            animation: blob 7s infinite;
+        }
+        
+        .blob:nth-child(1) {
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            animation-delay: 0s;
+        }
+        
+        .blob:nth-child(2) {
+            top: 50%;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            animation-delay: 2s;
+        }
+        
+        @keyframes blob {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
         }
     </style>
 </head>
-<body class="bg-rose-400 text-white flex flex-col min-h-screen">
-
-    <header class="bg-rose-400 sticky top-0 z-50 border-b border-rose-300">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center h-16">
-                <div class="flex-1 flex justify-center"> 
-                    <div class="hidden sm:flex space-x-4">
-                        <a href="#" id="nav-home" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white" onclick="showPage('home')">Home</a>
-                        <a href="#" id="nav-about" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white" onclick="showPage('about')">About</a>
-                        <a href="#" id="nav-services" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white" onclick="showPage('services')">Services</a>
-                        <a href="#" id="nav-contact" class="nav-link px-3 py-2 rounded-md text-sm font-semibold text-rose-50 hover:text-white" onclick="showPage('contact')">Contact</a>
-                    </div>
+<body class="text-gray-900">
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator"></div>
+    
+    <!-- Navigation -->
+    <nav class="floating-nav fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold font-display gradient-text">SafeSleep</span>
                 </div>
-                <div class="sm:hidden">
-                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-rose-100 hover:text-white hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
+                    <a href="#features" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Features</a>
+                    <a href="#pricing" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Pricing</a>
+                    <a href="#testimonials" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Reviews</a>
+                    <a href="#faq" class="nav-link text-gray-700 hover:text-gray-900 font-medium">FAQ</a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#trial" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Free Trial</a>
+                    <a href="#demo" class="btn-secondary text-gray-700 px-6 py-3 rounded-xl font-semibold">Book Demo</a>
                 </div>
             </div>
-            <div class="sm:hidden hidden bg-rose-400 border-t border-rose-300" id="mobile-menu">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="#" id="mobile-nav-home" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('home'); toggleMobileMenu();">Home</a>
-                    <a href="#" id="mobile-nav-about" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('about'); toggleMobileMenu();">About</a>
-                    <a href="#" id="mobile-nav-services" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('services'); toggleMobileMenu();">Services</a>
-                    <a href="#" id="mobile-nav-contact" class="nav-link block px-3 py-2 rounded-md text-base font-semibold text-rose-50 hover:text-white hover:bg-rose-500" onclick="showPage('contact'); toggleMobileMenu();">Contact</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
-        <section id="home" class="page-content active">
-            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[70vh] text-center relative">
-                <!-- This wrapper is now empty and just serves to be faded out quickly -->
-                <div id="hero-initial-animations-wrapper">
-                </div>
-                <!-- This wrapper contains the content that will be displayed -->
-                <div id="hero-final-title-wrapper" class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                    <span id="final-safesleep-title" class="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white">SafeSleep</span>
-                    <div id="final-tagline" class="mt-6 final-element-fade-in" style="animation-delay: 0.5s;">
-                         <p class="text-base md:text-lg text-rose-50 max-w-xl">
-                            Streamline licensing audits with automated sleep time documentation.
-                        </p>
-                    </div>
-                    <div id="final-buttons-container" class="mt-8 final-element-fade-in" style="animation-delay: 0.8s;">
-                        <a href="#" onclick="showPage('services')" class="inline-block bg-white hover:bg-rose-50 text-rose-500 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
-                            Explore Our Services
-                        </a>
-                        <a href="#" onclick="showPage('contact')" class="ml-4 inline-block bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-base sm:text-lg">
-                            Get In Touch
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="page-content">
-            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-white">About Us</h1>
-                <p class="text-lg text-rose-100 mb-4">
-                    This is the about page. Here you can share information about your company, your team, or your mission.
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient text-white pt-28 pb-20 relative">
+        <div class="floating-elements">
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+        </div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-bold font-display mb-8 leading-tight text-shadow">
+                    Transform Sleep Monitoring<br>
+                    <span class="text-yellow-300">from Paperwork Nightmare</span><br>
+                    <span class="text-emerald-300">to Automated Peace of Mind</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-12 text-blue-100 max-w-4xl mx-auto leading-relaxed">
+                    Stop losing hours to manual sleep logs. SafeSleep automates your SIDS compliance documentation while keeping children safer with systematic monitoring protocols.
                 </p>
-                <p class="text-rose-100 mb-4">
-                    Our goal is to provide excellent services and create amazing products. We are passionate about what we do and strive for continuous improvement.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-rose-400 border border-rose-300 p-4 rounded-lg">
-                        <h3 class="text-xl font-semibold text-white mb-2">Our Mission</h3>
-                        <p class="text-rose-50">To deliver high-quality solutions that meet our clients' needs and exceed their expectations.</p>
-                    </div>
-                    <div class="bg-rose-400 border border-rose-300 p-4 rounded-lg">
-                        <h3 class="text-xl font-semibold text-white mb-2">Our Vision</h3>
-                        <p class="text-rose-50">To be a leading innovator in our field, recognized for our creativity and commitment to excellence.</p>
-                    </div>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <a href="#trial" class="btn-primary text-white px-10 py-5 rounded-2xl text-lg font-semibold custom-shadow">
+                        🚀 Start Free Trial
+                    </a>
+                    <a href="#demo" class="btn-secondary text-gray-700 px-10 py-5 rounded-2xl text-lg font-semibold">
+                        📅 Book Demo
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="services" class="page-content">
-            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Our Services</h1>
-                <p class="text-lg text-rose-100 mb-6">
-                    Discover the range of services we offer. We are dedicated to providing top-notch solutions tailored to your needs.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="border border-rose-300 bg-rose-400 rounded-lg p-6 hover:border-rose-200 transition-all duration-300">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-white text-rose-500 mb-4">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+    <!-- Problem Section -->
+    <section class="py-24 relative">
+        <div class="section-divider mb-16"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display gradient-text mb-6">The Problem You Face Every Day</h2>
+                <h3 class="text-3xl font-semibold accent-gradient-text mb-8">Manual Sleep Logging Is Killing Your Efficiency</h3>
+            </div>
+            
+            <div class="problem-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="problemCarouselTrack">
+                        <!-- Cloned cards for infinite effect (end cards) -->
+                        <div class="problem-card clone">
+                            <div class="problem-icon text-red-500">📋</div>
+                            <h4 class="problem-title font-display">Inspection Stress</h4>
+                            <p class="problem-description">State inspectors require detailed records you struggle to maintain</p>
                         </div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Web Development</h3>
-                        <p class="text-rose-100">Creating responsive and dynamic websites tailored to your business needs.</p>
-                    </div>
-                    <div class="border border-rose-300 bg-rose-400 rounded-lg p-6 hover:border-rose-200 transition-all duration-300">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-white text-rose-500 mb-4">
-                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        <div class="problem-card clone">
+                            <div class="problem-icon text-red-500">🚨</div>
+                            <h4 class="problem-title font-display">License Risk</h4>
+                            <p class="problem-description">One missed entry could cost you your license</p>
                         </div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Mobile App Development</h3>
-                        <p class="text-rose-100">Building intuitive and high-performance mobile applications for iOS and Android.</p>
-                    </div>
-                    <div class="border border-rose-300 bg-rose-400 rounded-lg p-6 hover:border-rose-200 transition-all duration-300">
-                         <div class="flex items-center justify-center h-12 w-12 rounded-full bg-white text-rose-500 mb-4">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                        
+                        <!-- Original cards -->
+                        <div class="problem-card active" data-original="0">
+                            <div class="problem-icon text-red-500">⏰</div>
+                            <h4 class="problem-title font-display">Time Drain</h4>
+                            <p class="problem-description">Staff spend 2-3 hours daily on paperwork instead of caring for children</p>
                         </div>
-                        <h3 class="text-xl font-semibold text-white mb-2">UI/UX Design</h3>
-                        <p class="text-rose-100">Designing user-friendly interfaces that provide an optimal user experience.</p>
+                        <div class="problem-card" data-original="1">
+                            <div class="problem-icon text-red-500">⚠️</div>
+                            <h4 class="problem-title font-display">Liability Risks</h4>
+                            <p class="problem-description">Missed checks create liability risks and compliance gaps</p>
+                        </div>
+                        <div class="problem-card" data-original="2">
+                            <div class="problem-icon text-red-500">👨‍👩‍👧‍👦</div>
+                            <h4 class="problem-title font-display">Parent Pressure</h4>
+                            <p class="problem-description">Parents demand transparency but documentation is scattered</p>
+                        </div>
+                        <div class="problem-card" data-original="3">
+                            <div class="problem-icon text-red-500">📋</div>
+                            <h4 class="problem-title font-display">Inspection Stress</h4>
+                            <p class="problem-description">State inspectors require detailed records you struggle to maintain</p>
+                        </div>
+                        <div class="problem-card" data-original="4">
+                            <div class="problem-icon text-red-500">🚨</div>
+                            <h4 class="problem-title font-display">License Risk</h4>
+                            <p class="problem-description">One missed entry could cost you your license</p>
+                        </div>
+                        
+                        <!-- Cloned cards for infinite effect (start cards) -->
+                        <div class="problem-card clone">
+                            <div class="problem-icon text-red-500">⏰</div>
+                            <h4 class="problem-title font-display">Time Drain</h4>
+                            <p class="problem-description">Staff spend 2-3 hours daily on paperwork instead of caring for children</p>
+                        </div>
+                        <div class="problem-card clone">
+                            <div class="problem-icon text-red-500">⚠️</div>
+                            <h4 class="problem-title font-display">Liability Risks</h4>
+                            <p class="problem-description">Missed checks create liability risks and compliance gaps</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact" class="page-content">
-            <div class="bg-rose-400 p-6 sm:p-8 rounded-lg">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Contact Us</h1>
-                <p class="text-lg text-rose-100 mb-6">
-                    Have questions or want to discuss a project? Get in touch with us!
-                </p>
-                <form action="#" method="POST" class="space-y-6">
-                    <div>
-                        <label for="name" class="block text-sm font-semibold text-rose-100">Full Name</label>
-                        <input type="text" name="name" id="name" autocomplete="name" class="mt-1 block w-full px-3 py-2 bg-rose-300 border border-rose-200 rounded-md text-white placeholder-rose-100 focus:outline-none focus:ring-white focus:border-white sm:text-sm" placeholder="John Doe">
+    <!-- Solution Section -->
+    <section id="features" class="py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display gradient-text mb-6">How SafeSleep Solves This</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="premium-card p-10 rounded-3xl">
+                    <div class="flex items-center mb-6">
+                        <div class="feature-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
+                            <div class="text-3xl text-white relative z-10">⏰</div>
+                        </div>
+                        <h3 class="text-2xl font-bold font-display">Automated Timer-Based Monitoring</h3>
                     </div>
-                    <div>
-                        <label for="email" class="block text-sm font-semibold text-rose-100">Email Address</label>
-                        <input type="email" name="email" id="email" autocomplete="email" class="mt-1 block w-full px-3 py-2 bg-rose-300 border border-rose-200 rounded-md text-white placeholder-rose-100 focus:outline-none focus:ring-white focus:border-white sm:text-sm" placeholder="you@example.com">
+                    <p class="text-gray-600 leading-relaxed text-lg">Never miss a safety check again. Our smart timers prompt staff exactly when to monitor each sleeping child, ensuring consistent 15-minute intervals required by most state regulations.</p>
+                </div>
+                
+                <div class="premium-card p-10 rounded-3xl">
+                    <div class="flex items-center mb-6">
+                        <div class="feature-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
+                            <div class="text-3xl text-white relative z-10">📋</div>
+                        </div>
+                        <h3 class="text-2xl font-bold font-display">Digital Safety Checklists</h3>
                     </div>
-                    <div>
-                        <label for="message" class="block text-sm font-semibold text-rose-100">Message</label>
-                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full px-3 py-2 bg-rose-300 border border-rose-200 rounded-md text-white placeholder-rose-100 focus:outline-none focus:ring-white focus:border-white sm:text-sm" placeholder="Your message..."></textarea>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">Replace paper forms with instant digital questionnaires:</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-green-500 mr-3">✅</span> Child sleeping status
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-green-500 mr-3">✅</span> Breathing observed
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-green-500 mr-3">✅</span> Airway clear
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-green-500 mr-3">✅</span> Safe sleep position
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-green-500 mr-3">✅</span> Timestamped notes
+                        </div>
                     </div>
-                    <div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-rose-500 bg-white hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-rose-400 focus:ring-white transition duration-150 ease-in-out">
-                            Send Message
-                        </button>
+                </div>
+
+                <div class="premium-card p-10 rounded-3xl">
+                    <div class="flex items-center mb-6">
+                        <div class="feature-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
+                            <div class="text-3xl text-white relative z-10">📄</div>
+                        </div>
+                        <h3 class="text-2xl font-bold font-display">Instant Compliance Reports</h3>
                     </div>
-                </form>
-                <div class="mt-8 text-center">
-                    <p class="text-rose-100">You can also reach us at:</p>
-                    <p class="text-white hover:text-rose-50 font-bold">contact@safesleep.com</p>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">Generate professional PDF reports in seconds. Complete with:</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-blue-500 mr-3">•</span> Student profiles and emergency contacts
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-blue-500 mr-3">•</span> Chronological sleep monitoring logs
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-blue-500 mr-3">•</span> Safety check documentation
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-blue-500 mr-3">•</span> Digital signatures and timestamps
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="text-blue-500 mr-3">•</span> Ready for state inspections
+                        </div>
+                    </div>
+                </div>
+
+                <div class="premium-card p-10 rounded-3xl">
+                    <div class="flex items-center mb-6">
+                        <div class="feature-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
+                            <div class="text-3xl text-white relative z-10">👨‍👩‍👧‍👦</div>
+                        </div>
+                        <h3 class="text-2xl font-bold font-display">Parent Transparency</h3>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed text-lg">Build trust with detailed monitoring reports parents can access, showing exactly how well their child's safety is monitored.</p>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="bg-rose-400 text-rose-100 mt-auto border-t border-rose-300">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
-            <p class="text-sm">&copy; <span id="currentYear"></span> SafeSleep. All rights reserved.</p>
-            <p class="text-sm mt-1">Designed in California</p>
+    <!-- ROI Calculator -->
+    <section class="roi-section py-24 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display mb-6">ROI Calculator</h2>
+                <h3 class="text-3xl font-semibold text-emerald-300">What's Your Time Worth?</h3>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="glass-card p-10 rounded-3xl border-red-200">
+                    <h4 class="text-2xl font-bold mb-6 text-red-400">Current Manual Process:</h4>
+                    <div class="space-y-4 text-lg">
+                        <div class="flex items-center">
+                            <span class="text-red-300 mr-3">•</span> 3 hours daily on sleep documentation
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-red-300 mr-3">•</span> $15/hour staff wages
+                        </div>
+                        <div class="mt-8 p-6 bg-red-500/20 rounded-2xl border border-red-400/30">
+                            <div class="font-bold text-3xl text-yellow-300">$11,475 annually</div>
+                            <div class="text-red-200">just on paperwork</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-10 rounded-3xl border-green-200">
+                    <h4 class="text-2xl font-bold mb-6 text-green-400">With SafeSleep:</h4>
+                    <div class="space-y-4 text-lg">
+                        <div class="flex items-center">
+                            <span class="text-green-300 mr-3">•</span> 20 minutes daily on streamlined digital logs
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-300 mr-3">•</span> 89% time savings
+                        </div>
+                        <div class="mt-8 p-6 bg-green-500/20 rounded-2xl border border-green-400/30">
+                            <div class="font-bold text-3xl text-yellow-300">$10,200+ saved</div>
+                            <div class="text-green-200">annually per classroom</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features That Matter -->
+    <section class="py-24 bg-gradient-to-br from-purple-50 to-pink-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display gradient-text mb-6">Features That Matter</h2>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="premium-card p-8 rounded-3xl text-center">
+                    <div class="text-5xl mb-6">🔒</div>
+                    <h3 class="font-bold text-xl mb-4 font-display">Compliance-First Design</h3>
+                    <div class="space-y-2 text-gray-600">
+                        <div>• Meets SIDS reduction guidelines</div>
+                        <div>• State inspection ready</div>
+                        <div>• Audit trail for every interaction</div>
+                        <div>• Cannot be tampered with or lost</div>
+                    </div>
+                </div>
+                <div class="premium-card p-8 rounded-3xl text-center">
+                    <div class="text-5xl mb-6">👥</div>
+                    <h3 class="font-bold text-xl mb-4 font-display">Multi-Child Management</h3>
+                    <div class="space-y-2 text-gray-600">
+                        <div>• Track unlimited children simultaneously</div>
+                        <div>• Individual timer management</div>
+                        <div>• Student profile integration</div>
+                        <div>• Real-time status dashboards</div>
+                    </div>
+                </div>
+                <div class="premium-card p-8 rounded-3xl text-center">
+                    <div class="text-5xl mb-6">📱</div>
+                    <h3 class="font-bold text-xl mb-4 font-display">Staff-Friendly Interface</h3>
+                    <div class="space-y-2 text-gray-600">
+                        <div>• Works on any smartphone or tablet</div>
+                        <div>• No training required</div>
+                        <div>• Offline capability</div>
+                        <div>• Visual alerts and notifications</div>
+                    </div>
+                </div>
+                <div class="premium-card p-8 rounded-3xl text-center">
+                    <div class="text-5xl mb-6">☁️</div>
+                    <h3 class="font-bold text-xl mb-4 font-display">Secure Cloud Backup</h3>
+                    <div class="space-y-2 text-gray-600">
+                        <div>• Never lose data again</div>
+                        <div>• Access from anywhere</div>
+                        <div>• Automatic backups</div>
+                        <div>• COPPA compliant</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="hero-gradient py-24 text-white relative">
+        <div class="floating-elements">
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display mb-6">Customer Success Stories</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="testimonial-card p-10 rounded-3xl">
+                    <p class="text-xl mb-8 italic leading-relaxed">"SafeSleep saved us 15 hours weekly on documentation. During our last state inspection, the inspector was amazed at our organized digital records. We passed with flying colors."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-r from-pink-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold mr-4">MR</div>
+                        <div>
+                            <div class="font-bold text-lg">Maria Rodriguez</div>
+                            <div class="text-blue-200">Director, Little Stars Daycare</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card p-10 rounded-3xl">
+                    <p class="text-xl mb-8 italic leading-relaxed">"Parent confidence increased dramatically when we started sharing SafeSleep reports. They love seeing the detailed care their children receive."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold mr-4">DC</div>
+                        <div>
+                            <div class="font-bold text-lg">David Chen</div>
+                            <div class="text-blue-200">Owner, Sunshine Children's Center</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 bg-gradient-to-br from-indigo-50 to-cyan-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display gradient-text mb-6">Pricing That Makes Sense</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="premium-card p-10 rounded-3xl">
+                    <h3 class="text-2xl font-bold font-display mb-6">Starter Plan</h3>
+                    <div class="text-4xl font-bold gradient-text mb-6">$29<span class="text-xl text-gray-600">/month</span></div>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> Up to 20 children
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> Basic monitoring & reports
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> Email support
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> 30-day free trial
+                        </div>
+                    </div>
+                    <a href="#trial" class="btn-primary block w-full text-white text-center py-4 rounded-2xl font-bold">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-popular p-10 rounded-3xl text-white relative overflow-hidden">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-gray-900 px-6 py-2 rounded-full text-sm font-bold">Most Popular</div>
+                    <h3 class="text-2xl font-bold font-display mb-6 relative z-10">Professional Plan</h3>
+                    <div class="text-4xl font-bold mb-6 relative z-10">$59<span class="text-xl text-blue-200">/month</span></div>
+                    <div class="space-y-4 mb-8 relative z-10">
+                        <div class="flex items-center">
+                            <span class="text-yellow-300 mr-3">✓</span> Up to 75 children
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-yellow-300 mr-3">✓</span> Advanced reporting
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-yellow-300 mr-3">✓</span> Parent portal access
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-yellow-300 mr-3">✓</span> Priority support
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-yellow-300 mr-3">✓</span> Compliance templates
+                        </div>
+                    </div>
+                    <a href="#trial" class="btn-secondary block w-full text-gray-900 text-center py-4 rounded-2xl font-bold relative z-10">Start Free Trial</a>
+                </div>
+                
+                <div class="premium-card p-10 rounded-3xl">
+                    <h3 class="text-2xl font-bold font-display mb-6">Enterprise Plan</h3>
+                    <div class="text-4xl font-bold gradient-text mb-6">$99<span class="text-xl text-gray-600">/month</span></div>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> Unlimited children
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> Multi-location support
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> Custom integrations
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> Dedicated account manager
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-3">✓</span> On-site training
+                        </div>
+                    </div>
+                    <a href="#demo" class="bg-gray-900 hover:bg-gray-800 block w-full text-white text-center py-4 rounded-2xl font-bold transition-all">Contact Sales</a>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <p class="text-gray-600 text-lg">All plans include unlimited staff accounts and 99.9% uptime guarantee</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Trial -->
+    <section id="trial" class="hero-gradient py-24 text-white relative">
+        <div class="floating-elements">
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+        </div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold font-display mb-6">Risk-Free Trial</h2>
+            <h3 class="text-3xl font-semibold mb-12 text-blue-200">30 Days. No Credit Card. No Risk.</h3>
+            <p class="text-xl mb-12 leading-relaxed">Experience the SafeSleep difference with a complete 30-day trial:</p>
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-card p-8 rounded-2xl text-left">
+                    <div class="space-y-4">
+                        <div class="flex items-center text-lg">
+                            <span class="text-green-300 mr-4">✅</span> Full access to all features
+                        </div>
+                        <div class="flex items-center text-lg">
+                            <span class="text-green-300 mr-4">✅</span> Unlimited children and staff
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-2xl text-left">
+                    <div class="space-y-4">
+                        <div class="flex items-center text-lg">
+                            <span class="text-green-300 mr-4">✅</span> Complete training included
+                        </div>
+                        <div class="flex items-center text-lg">
+                            <span class="text-green-300 mr-4">✅</span> Setup assistance provided
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="btn-primary text-white px-12 py-6 rounded-2xl text-xl font-bold custom-shadow">🚀 Start Your Free Trial Today</a>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 bg-gradient-to-br from-gray-50 to-indigo-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display gradient-text mb-6">Frequently Asked Questions</h2>
+            </div>
+            <div class="space-y-6">
+                <div class="faq-item premium-card p-8 rounded-2xl">
+                    <h3 class="font-bold text-xl mb-4 font-display">Is SafeSleep compliant with state regulations?</h3>
+                    <p class="text-gray-600 leading-relaxed">Yes, SafeSleep is designed to meet and exceed SIDS reduction guidelines and state childcare regulations. Our documentation exceeds most state requirements.</p>
+                </div>
+                <div class="faq-item premium-card p-8 rounded-2xl">
+                    <h3 class="font-bold text-xl mb-4 font-display">What if staff forget to check?</h3>
+                    <p class="text-gray-600 leading-relaxed">SafeSleep sends automatic reminders and alerts. The system won't let important checks be missed.</p>
+                </div>
+                <div class="faq-item premium-card p-8 rounded-2xl">
+                    <h3 class="font-bold text-xl mb-4 font-display">Can parents access the information?</h3>
+                    <p class="text-gray-600 leading-relaxed">Yes, our parent portal allows secure access to their child's monitoring reports.</p>
+                </div>
+                <div class="faq-item premium-card p-8 rounded-2xl">
+                    <h3 class="font-bold text-xl mb-4 font-display">What about data security?</h3>
+                    <p class="text-gray-600 leading-relaxed">We use bank-level encryption and are COPPA compliant. Your data is safer than paper records.</p>
+                </div>
+                <div class="faq-item premium-card p-8 rounded-2xl">
+                    <h3 class="font-bold text-xl mb-4 font-display">How quickly can we implement this?</h3>
+                    <p class="text-gray-600 leading-relaxed">Most daycares are fully operational within 24 hours. We provide complete setup and training.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section id="demo" class="hero-gradient py-24 text-white relative">
+        <div class="floating-elements">
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+        </div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold font-display mb-6">Ready to Transform Your Sleep Monitoring?</h2>
+            <h3 class="text-3xl font-semibold mb-12 text-blue-200">Stop Risking Compliance Issues. Start Protecting Children Better.</h3>
+            <p class="text-xl mb-12 leading-relaxed">Join hundreds of daycare centers who've eliminated manual sleep logging forever.</p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="#" class="btn-primary text-white px-12 py-6 rounded-2xl text-xl font-bold custom-shadow">📅 Book Your Demo Today</a>
+                <a href="#" class="btn-secondary text-gray-700 px-12 py-6 rounded-2xl text-xl font-bold">🚀 Start Free Trial</a>
+            </div>
+            <p class="text-blue-200 mt-8 text-lg">No pushy sales calls. Just a genuine demonstration of how SafeSleep can transform your childcare operations.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-3xl font-bold font-display gradient-text mb-6">SafeSleep</div>
+                <p class="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">Because Every Child Deserves Safe Sleep, and Every Daycare Deserves Peace of Mind</p>
+                <div class="section-divider mb-8"></div>
+                <p class="text-gray-500">&copy; <span id="currentYear"></span> SafeSleep. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        let finalSequenceTimeoutId = null; 
-        let finalElementsTimeoutId = null;
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-        function startFinalSafeSleepSequence() {
-            const initialWrapper = document.getElementById('hero-initial-animations-wrapper');
-            const finalWrapper = document.getElementById('hero-final-title-wrapper');
-            const finalTagline = document.getElementById('final-tagline');
-            const finalButtons = document.getElementById('final-buttons-container');
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            if (initialWrapper && finalWrapper) {
-                // Ensure initial wrapper is briefly visible before fading out
-                initialWrapper.style.opacity = '1';
-                initialWrapper.classList.add('fade-out');
-                
-                finalSequenceTimeoutId = setTimeout(() => {
-                    finalWrapper.classList.add('fade-in-final-content'); 
-
-                    if(finalElementsTimeoutId) clearTimeout(finalElementsTimeoutId);
-                    finalElementsTimeoutId = setTimeout(() => {
-                        if(finalTagline) finalTagline.classList.add('final-element-fade-in');
-                        if(finalButtons) finalButtons.classList.add('final-element-fade-in');
-                    }, 500); 
-
-                }, 100); // Start fade-out after a very brief delay
-            }
-        }
-
-
-        function showPage(pageId) {
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                page.classList.remove('active');
+        // Scroll indicator
+        window.addEventListener('scroll', function() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            scrollIndicator.style.transform = `scaleX(${scrollPercentage / 100})`;
+            
+            // Add active states to navigation based on scroll position
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
             });
 
-            const selectedPage = document.getElementById(pageId);
-            if (selectedPage) {
-                selectedPage.classList.add('active');
-            }
-
-            const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.id === 'nav-' + pageId || link.id === 'mobile-nav-' + pageId) {
+                if (link.getAttribute('href') === `#${current}`) {
                     link.classList.add('active');
                 }
             });
+        });
 
-            window.scrollTo(0, 0);
-            if(typeof event !== 'undefined' && event && typeof event.preventDefault === 'function') { 
-                 event.preventDefault();
+        // Add some subtle parallax effects
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelectorAll('.floating-elements');
+            parallax.forEach(element => {
+                const speed = 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Infinite Auto-rotating Problem Carousel
+        class InfiniteCarousel {
+            constructor() {
+                this.track = document.getElementById('problemCarouselTrack');
+                this.cards = document.querySelectorAll('.problem-card');
+                this.originalCards = document.querySelectorAll('[data-original]');
+                this.totalSlides = this.cards.length;
+                this.originalCount = this.originalCards.length;
+                this.cloneCount = 2; // Number of clones on each side
+                this.currentSlide = this.cloneCount; // Start after the first set of clones
+                this.autoplayInterval = null;
+                this.slidesToShow = this.getSlidesToShow();
+                this.isAnimating = false;
+                this.slideWidth = 0;
+                
+                this.init();
             }
-
-            if (pageId === 'home') {
-                if (finalSequenceTimeoutId) clearTimeout(finalSequenceTimeoutId);
-                if (finalElementsTimeoutId) clearTimeout(finalElementsTimeoutId);
-
-                const initialWrapper = document.getElementById('hero-initial-animations-wrapper');
-                const finalWrapper = document.getElementById('hero-final-title-wrapper');
-                const finalTagline = document.getElementById('final-tagline');
-                const finalButtons = document.getElementById('final-buttons-container');
-
-                if(initialWrapper) {
-                    initialWrapper.classList.remove('fade-out');
-                    initialWrapper.style.opacity = '1'; 
+            
+            getSlidesToShow() {
+                if (window.innerWidth >= 1024) return 3;
+                if (window.innerWidth >= 768) return 2;
+                return 1;
+            }
+            
+            init() {
+                // Calculate slide width
+                this.slideWidth = 100 / this.totalSlides;
+                
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    this.slidesToShow = this.getSlidesToShow();
+                    this.slideWidth = 100 / this.totalSlides;
+                    this.updateCarousel(false);
+                });
+                
+                // Start auto-rotation
+                this.startAutoplay();
+                
+                // Pause on hover for better UX
+                this.track.addEventListener('mouseenter', () => this.pauseAutoplay());
+                this.track.addEventListener('mouseleave', () => this.resumeAutoplay());
+                
+                // Initial setup - position at the start of original cards
+                this.updateCarousel(false);
+            }
+            
+            updateCarousel(withTransition = true) {
+                if (this.isAnimating && withTransition) return;
+                
+                if (withTransition) {
+                    this.isAnimating = true;
+                    this.track.style.transition = 'transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                } else {
+                    this.track.style.transition = 'none';
                 }
-                if(finalWrapper) {
-                    finalWrapper.classList.remove('fade-in-final-content');
-                    finalWrapper.style.opacity = '0';
-                    finalWrapper.style.pointerEvents = 'none';
-                    finalWrapper.style.transform = 'scale(0.9)';
+                
+                const translateX = -(this.currentSlide * this.slideWidth);
+                this.track.style.transform = `translateX(${translateX}%)`;
+                
+                // Update active states
+                this.updateActiveStates();
+                
+                if (withTransition) {
+                    // Check for infinite loop reset after transition
+                    setTimeout(() => {
+                        this.checkInfiniteReset();
+                        this.isAnimating = false;
+                    }, 1000);
                 }
-                if(finalTagline) {
-                    finalTagline.classList.remove('final-element-fade-in');
-                    finalTagline.style.opacity = '0';
+            }
+            
+            updateActiveStates() {
+                this.cards.forEach((card, index) => {
+                    card.classList.remove('active');
+                });
+                
+                // Activate cards in the current view
+                for (let i = 0; i < this.slidesToShow; i++) {
+                    const cardIndex = this.currentSlide + i;
+                    if (cardIndex < this.totalSlides && this.cards[cardIndex]) {
+                        setTimeout(() => {
+                            this.cards[cardIndex].classList.add('active');
+                        }, i * 100);
+                    }
                 }
-                if(finalButtons) {
-                    finalButtons.classList.remove('final-element-fade-in');
-                    finalButtons.style.opacity = '0';
+            }
+            
+            checkInfiniteReset() {
+                // If we're at or past the end clones, reset to beginning of original cards
+                if (this.currentSlide >= this.cloneCount + this.originalCount) {
+                    this.currentSlide = this.cloneCount;
+                    this.updateCarousel(false);
                 }
-
-                // Directly start the final sequence
-                startFinalSafeSleepSequence();
+                // If we're at or before the beginning clones, reset to end of original cards
+                else if (this.currentSlide < this.cloneCount) {
+                    this.currentSlide = this.cloneCount + this.originalCount - 1;
+                    this.updateCarousel(false);
+                }
+            }
+            
+            nextSlide() {
+                this.currentSlide++;
+                this.updateCarousel(true);
+            }
+            
+            prevSlide() {
+                this.currentSlide--;
+                this.updateCarousel(true);
+            }
+            
+            startAutoplay() {
+                this.autoplayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, 2000); // Fast rotation for dynamic engagement
+            }
+            
+            pauseAutoplay() {
+                if (this.autoplayInterval) {
+                    clearInterval(this.autoplayInterval);
+                }
+            }
+            
+            resumeAutoplay() {
+                this.startAutoplay();
             }
         }
-
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const openIcon = mobileMenuButton.querySelector('svg:first-of-type');
-        const closeIcon = mobileMenuButton.querySelector('svg:last-of-type');
-
-        function toggleMobileMenu() {
-            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
-            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
-            mobileMenu.classList.toggle('hidden');
-            openIcon.classList.toggle('hidden');
-            openIcon.classList.toggle('block');
-            closeIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('block');
-        }
-
-        mobileMenuButton.addEventListener('click', toggleMobileMenu);
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        document.addEventListener('DOMContentLoaded', () => {
-            showPage('home'); 
+        
+        // Initialize infinite carousel when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            new InfiniteCarousel();
         });
     </script>
-
 </body>
 </html>
